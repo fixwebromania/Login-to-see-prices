@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Login To See Prices</name>
+  <code>fixoc_seeprices</code>
+  <version>1.0</version>
+  <author>Toader Bogdan</author>
+  <link>bogdantoa@yahoo.com</link>
+  <file path="system/library/cart/currency.php">
+	<operation>
+      <search>
+        <![CDATA[private $currencies = array();]]>
+      </search>
+      <add position="after">
+        <![CDATA[		
+		private $customer;
+		]]>
+      </add>
+    </operation>
+	<operation>
+      <search>
+        <![CDATA[public function __construct($registry) {]]>
+      </search>
+      <add position="after">
+        <![CDATA[		
+		$this->customer=new Customer($registry);
+		]]>
+      </add>
+    </operation>
+	<operation>
+      <search>
+        <![CDATA[public function format($number, $currency, $value = '', $format = true) {]]>
+      </search>
+      <add position="after">
+        <![CDATA[		
+		$customer_id=(int)$this->customer->getId();
+		if($customer_id==0)
+		{
+			return "<a style='font-weight: bold;' href='index.php?route=account/login'>Login to see prices</a>";
+		}
+		]]>
+      </add>
+    </operation>
+  </file> 
+</modification>
